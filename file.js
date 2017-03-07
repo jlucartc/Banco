@@ -27,6 +27,4 @@ function drawChart() {
   var chart = new google.charts.Bar(document.getElementById('graph'));
 
   chart.draw(data, options);
-
-  alert("OK");
 }

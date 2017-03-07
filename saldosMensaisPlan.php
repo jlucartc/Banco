@@ -217,7 +217,7 @@ $recVarTotal = 0; $recFixTotal = 0; $desVarTotal = 0; $desFixTotal = 0;
                                                       }
                                                      ?>
                                                      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                                     <script type="text/javascript" src="https://localhost/PWEB/Banco/file.js"></script>
+                                                     <script type="text/javascript" src="file.js"></script>
                                                   <div id="graph"></div>
                                                   </center>
                                                 </form>
