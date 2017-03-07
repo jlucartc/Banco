@@ -177,6 +177,48 @@ $recVarTotal = 0; $recFixTotal = 0; $desVarTotal = 0; $desFixTotal = 0;
                                                   </div>
                                                     <br><img src="graphs.php" style="width:80%;" height=300>
                                                     <br><br><input type ="button" class="btn btn-primary" onClick ="location.href = 'principal.php'" value ='Voltar '>
+                                                    <?php
+
+                                                      $rec = $pdo->prepare("SELECT * FROM receitas_despesas WHERE usuario = ? AND tipo = 1");
+                                                      $des = $pdo->prepare("SELECT * FROM receitas_despesas WHERE usuario = ? AND tipo = 2 ");
+                                                      $rec->execute(array($id_usuario));
+                                                      $des->execute(array($id_usuario));
+                                                      $rec = $rec->fetchAll();
+                                                      $des = $des->fetchAll();
+                                                      //print_r($rec);
+                                                      //print_r($des);
+                                                      $graphRecMes = array(0,0,0,0,0,0,0,0,0,0,0,0);
+                                                      $graphDesMes = array(0,0,0,0,0,0,0,0,0,0,0,0);
+                                                      foreach($rec as $r) {
+                                                          if($r['classe'] == '1'){
+                                                            $graphRecMes[$r['mes_referencia']] = $graphRecMes[$r['mes_referencia']] + $r['valor'];
+                                                          }else if($r['classe'] == '2'){
+                                                            for($i = 0; $i < 12; $i++){
+                                                              $graphRecMes[$i] = $graphRecMes[$i] + $r['valor'];
+                                                            }
+                                                          }
+                                                      }
+
+                                                      foreach($des as $d){
+                                                        if($d['classe'] == 1){
+                                                          $graphDesMes[$d['mes_referencia']] =  $graphDesMes[$d['mes_referencia']] + $d['valor'];
+                                                        }else if($d['classe'] == 2){
+                                                          for($i = 0; $i < 12; $i++){
+                                                            $graphDesMes[$i] = $graphDesMes[$i] + $d['valor'];
+                                                          }
+                                                        }
+                                                      }
+
+                                                      for($i = 0; $i < 12; $i++){
+                                                        ?>
+                                                          <input type="hidden" name="recMes" data-mes="<?php echo $i; ?>"data-valor="<?php echo $graphRecMes[$i]; ?>">
+                                                          <input type="hidden" name="desMes" data-mes="<?php echo $i; ?>" data-valor="<?php echo $graphDesMes[$i]; ?>">
+                                                        <?php
+                                                      }
+                                                     ?>
+                                                     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                                     <script type="text/javascript" src="https://localhost/PWEB/Banco/file.js"></script>
+                                                  <div id="graph"></div>
                                                   </center>
                                                 </form>
                                               </body>
